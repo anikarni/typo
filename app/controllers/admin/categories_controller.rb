@@ -7,7 +7,6 @@ class Admin::CategoriesController < Admin::BaseController
   def new
     respond_to do |format|
       format.html { 
-        @category = Category.new
         new_or_edit 
       }
       format.js { 
@@ -27,22 +26,23 @@ class Admin::CategoriesController < Admin::BaseController
   private
 
   def new_or_edit
+    @category = Category.new
     @categories = Category.find(:all)
     if params[:id]
       @category = Category.find(params[:id])
-      @category.attributes = params[:category]
-      if request.post?
-        respond_to do |format|
-          format.html { save_category }
-          format.js do 
-	    @category.save
-	    @article = Article.new
-	    @article.categories << @category
-	    return render(:partial => 'admin/content/categories')
-	  end
-	end
-	return
+    end
+    @category.attributes = params[:category]
+    if request.post?
+      respond_to do |format|
+        format.html { save_category }
+        format.js do 
+        @category.save
+	@article = Article.new
+	@article.categories << @category
+	return render(:partial => 'admin/content/categories')
+        end
       end
+      return
     end
     render 'new'
   end
