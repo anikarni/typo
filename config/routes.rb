@@ -80,6 +80,7 @@ Rails.application.routes.draw do
   match '/categories/new', :to => 'categories#new', :format => false
 
   # ContentController
+  resources :content, :except => [:show, :update, :destroy, :edit]
   match 'content/merge', :to => 'content#merge', :format => false
 
   # TagsController (imitate inflected_resource)

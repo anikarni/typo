@@ -1,4 +1,5 @@
 class ContentController < ApplicationController
+
   class ExpiryFilter
     def before(controller)
       @request_time = Time.now
@@ -15,17 +16,18 @@ class ContentController < ApplicationController
        end
     end
   end
-  
+
+  include LoginSystem
+  before_filter :setup_themer, :except => [:merge]
+  helper :theme
+
+      
   def merge
     @article = Article.find(:params[:id])
     @merge_article = Article.find(:params[:merge_with])
     @aticle.merge_with(@merge_article)
     redirect_to '/admin/content/edit/{#:params[:id]}'
   end
-
-  include LoginSystem
-  before_filter :setup_themer
-  helper :theme
 
   protected
 
