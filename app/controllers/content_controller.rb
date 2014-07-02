@@ -15,6 +15,13 @@ class ContentController < ApplicationController
        end
     end
   end
+  
+  def merge
+    @article = Article.find(:params[:id])
+    @merge_article = Article.find(:params[:merge_with])
+    @aticle.merge_with(@merge_article)
+    redirect_to '/admin/content/edit/{#:params[:id]}'
+  end
 
   include LoginSystem
   before_filter :setup_themer
@@ -33,4 +40,5 @@ class ContentController < ApplicationController
   def theme_layout
     this_blog.current_theme.layout(self.action_name)
   end
+
 end

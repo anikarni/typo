@@ -55,6 +55,7 @@ class Content < ActiveRecord::Base
   serialize :whiteboard
 
   attr_accessor :just_changed_published_status
+  attr_accessor :merge_article
   alias_method :just_changed_published_status?, :just_changed_published_status
 
   after_save :invalidates_cache?
@@ -87,6 +88,12 @@ class Content < ActiveRecord::Base
 
     self.redirects << r
   end
+
+  def merge_with(merge_article)
+    @merge_article = merge_article
+    self.body += @merge_article.body
+  end
+
 
   class << self
     def content_fields *attribs

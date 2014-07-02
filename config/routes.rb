@@ -79,6 +79,9 @@ Rails.application.routes.draw do
   match '/category/:id/page/:page', :to => 'categories#show', :format => false
   match '/categories/new', :to => 'categories#new', :format => false
 
+  # ContentController
+  match 'content/merge', :to => 'content#merge', :format => false
+
   # TagsController (imitate inflected_resource)
   resources :tags, :except => [:show, :update, :destroy, :edit]
   resources :tags, :path => 'tag', :only => [:show, :edit, :update, :destroy]
