@@ -112,6 +112,15 @@ class Admin::ContentController < Admin::BaseController
     end
     render :text => nil
   end
+  
+  def merge
+    params[:id] = params[:original]
+    @article = Article.find(params[:original])
+    @merge_article = Article.find(params[:merge_with])
+    @article.merge_with(@merge_article)
+    flash[:notice] = _("Articles successfully merged")
+    redirect_to :action => 'index'
+  end
 
   protected
 

@@ -92,6 +92,8 @@ class Content < ActiveRecord::Base
   def merge_with(merge_article)
     @merge_article = merge_article
     self.body += @merge_article.body
+    self.comments += @merge_article.comments
+    self.save
   end
 
 
