@@ -56,6 +56,7 @@ class Content < ActiveRecord::Base
 
   attr_accessor :just_changed_published_status
   attr_accessor :merge_article
+  attr_accessor :new_article
   alias_method :just_changed_published_status?, :just_changed_published_status
 
   after_save :invalidates_cache?
@@ -90,10 +91,13 @@ class Content < ActiveRecord::Base
   end
 
   def merge_with(merge_article)
-    @merge_article = merge_article
-    self.body += @merge_article.body
-    self.comments += @merge_article.comments
-    self.save
+    @new_article = Article.new
+    @merge_article = merge_article    
+    @new_article.author = self.author
+    @new_article.title = self.title
+    @new_article.body = self.body + @merge_article.body
+    @new_article.comments = self.comments + @merge_article.comments
+    @new_article.save
   end
 
 
