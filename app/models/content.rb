@@ -91,13 +91,10 @@ class Content < ActiveRecord::Base
   end
 
   def merge_with(merge_article)
-    @new_article = Article.new
-    @merge_article = merge_article    
-    @new_article.author = self.author
-    @new_article.title = self.title
-    @new_article.body = self.body + @merge_article.body
-    @new_article.comments = self.comments + @merge_article.comments
-    @new_article.save
+    @merge_article = merge_article
+    self.body += @merge_article.body
+    self.comments += @merge_article.comments
+    self.save
   end
 
 
